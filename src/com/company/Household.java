@@ -7,7 +7,6 @@ public class Household {
 
     private double income;
     private double savings;
-    private int loanId = -1;
     private double percentSavings = 50;
 
     public Household(double newIncome, double newSavings){
@@ -15,11 +14,19 @@ public class Household {
         savings = newSavings;
     }
 
-    public int getLoanId(){
-        return loanId;
+    public double getIncome() {
+        return income;
     }
 
-    public void getIncome(){
+    public double getSavings(){
+        return savings;
+    }
+
+    public void setSavings(double savings){
+        this.savings = savings;
+    }
+
+    public void getPaid() {
         savings += income * (percentSavings / 100);
     }
 
