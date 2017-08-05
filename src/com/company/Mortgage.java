@@ -6,15 +6,20 @@ package com.company;
 public class Mortgage {
 
     private double totalAmount;
+    private double payBackAmount;
     private double interestRate;
     private int householdId;
     private int bankId;
 
+    //mortgage configs
+    private static double mortgagePayMonths = 360; //30y * 12m
+
     public Mortgage(double totalAmount, double interestRate, int bankId, int houseHoldId){
         this.totalAmount = totalAmount;
-        this.interestRate = interestRate / 100; //50.0% -> 0.5
+        this.interestRate = interestRate;
         this.bankId = bankId;
         this.householdId = houseHoldId;
+        this.payBackAmount =  totalAmount / mortgagePayMonths;
     }
 
     public double payLoan(double payAmount){
@@ -37,5 +42,19 @@ public class Mortgage {
         return householdId;
     }
 
+    public double getTotalAmount() {
+        return totalAmount;
+    }
 
+    public double getBankId(){
+        return bankId;
+    }
+
+    public double getInterestRate(){
+        return interestRate;
+    }
+
+    public double getPayBackAmount(){
+        return payBackAmount;
+    }
 }

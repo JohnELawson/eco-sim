@@ -7,7 +7,7 @@ public class Household {
 
     private double income;
     private double savings;
-    private double percentSavings = 50;
+    private double percentSavings = 0.2;
 
     public Household(double newIncome, double newSavings){
         income = newIncome;
@@ -27,7 +27,16 @@ public class Household {
     }
 
     public void getPaid() {
-        savings += income * (percentSavings / 100);
+        savings = savings + (income * percentSavings);
+    }
+
+    public boolean payMortgage(double amount) {
+        if(amount >= savings){
+            return false;
+        } else {
+            savings = savings - amount;
+            return true;
+        }
     }
 
     public String getDetails(){

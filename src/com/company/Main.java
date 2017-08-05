@@ -19,10 +19,12 @@ public class Main {
 
     //household configs
     private static double minWage = 20000.00;
-    private static double maxWage = 150000.00;
+    private static double maxWage = 250000.00;
     private static double housePriceMultiplier = 10;
     private static double houseSavingsMultiplier = 0.1;
-    private static double houseDepositMultiplier = 0.05;
+    private static double houseDepositMultiplier = 0.08;
+
+
 
     public static void main(String[] args) {
 
@@ -61,7 +63,7 @@ public class Main {
             double interestRate = 3.0;
             banks.add(new Bank(liquidAssets, interestRate));
             int id =  banks.size() -1;
-            print("Bank added: " + id + " - Liquid Assets: " + liquidAssets + ", Intrest Rate: " + interestRate);
+            print("Bank added: " + id + " - Liquid Assets: " + liquidAssets + ", Interest Rate: " + interestRate);
         }
     }
 
@@ -82,14 +84,14 @@ public class Main {
     private static void getMortgages(){
         for(int i=0; i<noOfHouseholds; i++){
 
-            if(!hasMortgage(i)) {
+            if(hasMortgage(i) == -1) {
                 //if the household does not have a mortgage
 
                 double houseCost = households.get(i).getIncome() * housePriceMultiplier;
                 double householdSavings = households.get(i).getSavings();
                 double houseDeposit = houseDepositMultiplier * houseCost;
 
-                //make this random or soemthing later
+                //make this random or something later
                 int bankId = 0;
 
                 if (householdSavings > houseDeposit) {
@@ -99,28 +101,48 @@ public class Main {
                     //pay deposit
                     households.get(i).setSavings(householdSavings - houseDeposit);
 
-                    print("Household: " + i + " got mortgage - House Cost: " + houseCost + ", Deposit: " + houseDeposit + ", Bank Id: " + bankId);
+                    print("Household: " + i + " got mortgage - House Cost: " + houseCost + ", Deposit: " + houseDeposit + ", Bank Id: " + bankId + ", with savings of " + householdSavings);
                 } else {
                     //cant afford house yet
-                    print("Household: " + i + " cannot afford a mortgage yet.");
+                    print("Household: " + i + " cannot afford a mortgage of " + houseCost + ", with savings of " + householdSavings);
                 }
 
+            } else {
+                Mortgage mortgage = mortgages.get(hasMortgage(i));
+                print("Household: " + i + " already has a mortgage - Cost: " + mortgage.getTotalAmount() + ", Interest: " + mortgage.getInterestRate() + ", BankId: " + mortgage.getBankId());
             }
         }
     }
 
-    private static boolean hasMortgage(int householdId) {
+    private static void payMortgages(){
         for(int i = 0; i< mortgages.size(); i++){
-            if(mortgages.get(i).getHouseholdId() == householdId){
-                return true;
+            int householdId = hasMortgage(i);
+            if(householdId != -1){
+                Mortgage mortgage = mortgages.get(i);
+                double payBackAmount = mortgage.getPayBackAmount();
+
+                //make household pay
+                households.get(householdId).payMortgage(payBackAmount);
+                //update mortgage value
+                mortgage.payLoan(payBackAmount);
+                //update bank capital
+                //###
             }
         }
-        return false;
+    }
+
+    private static int hasMortgage(int householdId) {
+        for(int i = 0; i< mortgages.size(); i++){
+            if(mortgages.get(i).getHouseholdId() == householdId){
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static void incrementInterest(){
-        for(int i = 0; i< banks.size(); i++){
-           // banks.get(i).addLoanInterest();
+        for(int i = 0; i< mortgages.size(); i++){
+           mortgages.get(i).incrementInterest();
         }
     }
 
