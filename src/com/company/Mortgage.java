@@ -46,7 +46,7 @@ public class Mortgage {
         return totalAmount;
     }
 
-    public double getBankId(){
+    public int getBankId(){
         return bankId;
     }
 

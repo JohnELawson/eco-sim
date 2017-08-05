@@ -19,7 +19,15 @@ public class Bank {
     }
 
     public double getliquidAssets(){
-        return interestRate;
+        return liquidAssets;
+    }
+
+    public void recievePayment(double amount){
+        liquidAssets = liquidAssets + amount;
+    }
+
+    public void makePayment(double amount){
+        liquidAssets = liquidAssets - amount;
     }
 
     public String getDetails(){

@@ -14,7 +14,7 @@ public class Main {
     private static int noOfMonths = 10;
 
     //simulation assets configs
-    private static int noOfHouseholds = 10;
+    private static int noOfHouseholds = 25;
     private static int noOfBanks = 1;
 
     //household configs
@@ -47,6 +47,8 @@ public class Main {
             //attempt get loans/ pay loans
             getMortgages();
 
+            payMortgages();
+
             //print monthly status
             print("");
             getBankDetails();
@@ -59,7 +61,7 @@ public class Main {
 
         for(int i=0; i<noOfBanks; i++){
             //random number gen for liquidAssets, interest rate,
-            double liquidAssets = 1000000.0;
+            double liquidAssets = 10000000.0;
             double interestRate = 3.0;
             banks.add(new Bank(liquidAssets, interestRate));
             int id =  banks.size() -1;
@@ -95,13 +97,27 @@ public class Main {
                 int bankId = 0;
 
                 if (householdSavings > houseDeposit) {
-                    //get mortgage
-                    mortgages.add(new Mortgage(houseCost, houseDeposit,bankId, i));
 
-                    //pay deposit
-                    households.get(i).setSavings(householdSavings - houseDeposit);
 
-                    print("Household: " + i + " got mortgage - House Cost: " + houseCost + ", Deposit: " + houseDeposit + ", Bank Id: " + bankId + ", with savings of " + householdSavings);
+                    //check liquid assets
+                    Bank bank = banks.get(bankId);
+                    if(bank.getliquidAssets() > (0 + houseCost)) {
+
+                        //get mortgage
+                        mortgages.add(new Mortgage(houseCost, houseDeposit, bankId, i));
+
+                        //pay deposit
+                        households.get(i).setSavings(householdSavings - houseDeposit);
+
+                        //subtract from bank
+                        bank.makePayment(houseCost);
+
+                        print("Household: " + i + " got mortgage - House Cost: " + houseCost + ", Deposit: " + houseDeposit + ", Bank Id: " + bankId + ", with savings of " + householdSavings);
+                    } else {
+                        // bank cant afford
+                        print("Bank: " + bankId + " cant afford mortgage. Liquid Assets: " + bank.getliquidAssets() + ", House cost: " + houseCost);
+                    }
+
                 } else {
                     //cant afford house yet
                     print("Household: " + i + " cannot afford a mortgage of " + houseCost + ", with savings of " + householdSavings);
@@ -126,7 +142,7 @@ public class Main {
                 //update mortgage value
                 mortgage.payLoan(payBackAmount);
                 //update bank capital
-                //###
+                banks.get(mortgage.getBankId()).recievePayment(payBackAmount);
             }
         }
     }
