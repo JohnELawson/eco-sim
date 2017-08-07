@@ -59,13 +59,14 @@ public class Main {
 
             //attempt get loans/ pay loans
             getMortgages();
-
             payMortgages();
 
             //print monthly status
-            print("");
             getBankDetails();
             getHouseholdDetails();
+
+            //write data to file
+            createCSVLine(i);
         }
 
 
@@ -207,11 +208,10 @@ public class Main {
         if(debug) {
             System.out.println(line);
         }
-        createCSVLine();
     }
 
-    private static void createCSVLine(){
-        String CSV = "";
+    private static void createCSVLine(int MonthNumber){
+        String CSV = MonthNumber + ", " ;
         for(int i = 0; i< banks.size(); i++){
             CSV += i + ", " + banks.get(i).getCSV();
         }
