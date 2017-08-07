@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Main {
 
+    //debug
+    private static boolean debug = false;
+
     //lists of simulation assets
     private static List<Bank> banks = new ArrayList<Bank>(0);
     private static List<Household> households = new ArrayList<Household>(0);
@@ -125,7 +128,7 @@ public class Main {
 
             } else {
                 Mortgage mortgage = mortgages.get(hasMortgage(i));
-                print("Household: " + i + " already has a mortgage - Cost: " + mortgage.getTotalAmount() + ", Interest: " + mortgage.getInterestRate() + ", BankId: " + mortgage.getBankId());
+                print("Household: " + i + " already has a mortgage - Cost: " + mortgage.getAmountLeft() + ", Interest: " + mortgage.getInterestRate() + ", BankId: " + mortgage.getBankId());
             }
         }
     }
@@ -181,6 +184,24 @@ public class Main {
     }
 
     private static void print(String line) {
+        if(debug) {
+            System.out.println(line);
+        } else {
+            printCSV();
+        }
+    }
+
+    private static void printCSV(){
+        String line = "";
+        for(int i = 0; i< banks.size(); i++){
+            line += i + ", " + banks.get(i).getCSV();
+        }
+        for(int i = 0; i< households.size(); i++){
+            line += i + ", " + households.get(i).getCSV();
+        }
+        for(int i = 0; i< mortgages.size(); i++){
+            line += i + ", " + mortgages.get(i).getCSV();
+        }
         System.out.println(line);
     }
 }

@@ -1,5 +1,8 @@
 package com.company;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by john on 25/07/2017.
  */
@@ -32,5 +35,10 @@ public class Bank {
 
     public String getDetails(){
         return "Liquid Assets: " + liquidAssets + ", Interest Rate: " + interestRate + ".";
+    }
+
+    public String getCSV(){
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        return formatter.format(liquidAssets) + ", " + formatter.format(interestRate) + ", ";
     }
 }

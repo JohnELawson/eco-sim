@@ -1,11 +1,15 @@
 package com.company;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by john on 05/08/2017.
  */
 public class Mortgage {
 
     private double totalAmount;
+    private double amountLeft;
     private double payBackAmount;
     private double interestRate;
     private int householdId;
@@ -16,6 +20,7 @@ public class Mortgage {
 
     public Mortgage(double totalAmount, double interestRate, int bankId, int houseHoldId){
         this.totalAmount = totalAmount;
+        this.amountLeft = totalAmount;
         this.interestRate = interestRate;
         this.bankId = bankId;
         this.householdId = houseHoldId;
@@ -23,27 +28,26 @@ public class Mortgage {
     }
 
     public double payLoan(double payAmount){
-        if(payAmount >= totalAmount){
-            totalAmount = 0;
-            return payAmount - totalAmount;
+        if(payAmount >= amountLeft){
+            amountLeft = 0;
+            return payAmount - amountLeft;
 
         } else {
-            totalAmount -= payAmount;
+            amountLeft -= payAmount;
             return 0;
         }
     }
 
-    //interest
     public void incrementInterest(){
-        totalAmount = totalAmount * interestRate;
+        amountLeft = amountLeft * interestRate;
     }
 
     public int getHouseholdId(){
         return householdId;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public double getAmountLeft() {
+        return amountLeft;
     }
 
     public int getBankId(){
@@ -56,5 +60,10 @@ public class Mortgage {
 
     public double getPayBackAmount(){
         return payBackAmount;
+    }
+
+    public String getCSV(){
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        return formatter.format(householdId) + ", " + formatter.format(bankId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(interestRate) + ", ";
     }
 }
