@@ -19,7 +19,7 @@ public class Main {
     private static List<Mortgage> mortgages = new ArrayList<Mortgage>(0);
 
     //loop config
-    private static int noOfMonths = 10;
+    private static int noOfMonths = 1000;
 
     //simulation assets configs
     private static int noOfHouseholds = 25;
