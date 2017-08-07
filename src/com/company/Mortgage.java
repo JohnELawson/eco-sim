@@ -12,16 +12,18 @@ public class Mortgage {
     private double amountLeft;
     private double payBackAmount;
     private double interestRate;
+    private double depositAmount;
     private int householdId;
     private int bankId;
 
     //mortgage configs
     private static double mortgagePayMonths = 360; //30y * 12m
 
-    public Mortgage(double totalAmount, double interestRate, int bankId, int houseHoldId){
+    public Mortgage(int bankId, int houseHoldId, double totalAmount, double interestRate, double deposit){
         this.totalAmount = totalAmount;
         this.amountLeft = totalAmount;
         this.interestRate = interestRate;
+        this.depositAmount = deposit;
         this.bankId = bankId;
         this.householdId = houseHoldId;
         this.payBackAmount =  totalAmount / mortgagePayMonths;
@@ -64,6 +66,6 @@ public class Mortgage {
 
     public String getCSV(){
         NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(householdId) + ", " + formatter.format(bankId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", ";
+        return formatter.format(bankId) + ", " + formatter.format(householdId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", ";
     }
 }

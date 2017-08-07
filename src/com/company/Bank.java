@@ -39,6 +39,6 @@ public class Bank {
     }
 
     public String getCSV(){
-        return formatter.format(liquidAssets) + ", " + formatter.format(interestRate) + ", ";
+        return formatter.format(liquidAssets) + ", "; // + formatter.format(interestRate) + ", ";
     }
 }

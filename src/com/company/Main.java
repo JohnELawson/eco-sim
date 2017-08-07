@@ -80,7 +80,7 @@ public class Main {
         for(int i=0; i<noOfBanks; i++){
             //random number gen for liquidAssets, interest rate,
             double liquidAssets = 10000000.0;
-            double interestRate = 3.0;
+            double interestRate = 0.03;
             banks.add(new Bank(liquidAssets, interestRate));
             int id =  banks.size() -1;
             print("Bank added: " + id + " - Liquid Assets: " + liquidAssets + ", Interest Rate: " + interestRate);
@@ -122,7 +122,7 @@ public class Main {
                     if(bank.getliquidAssets() > (0 + houseCost)) {
 
                         //get mortgage
-                        mortgages.add(new Mortgage(houseCost, houseDeposit, bankId, i));
+                        mortgages.add(new Mortgage(bankId, i, houseCost, bank.getInterestRate(), houseDeposit));
 
                         //pay deposit
                         households.get(i).setSavings(householdSavings - houseDeposit);
@@ -211,13 +211,15 @@ public class Main {
     }
 
     private static void createCSVLine(int MonthNumber){
-        String CSV = MonthNumber + ", " ;
+        String CSV = "Banks, " + MonthNumber + ", " ;
         for(int i = 0; i< banks.size(); i++){
             CSV += i + ", " + banks.get(i).getCSV();
         }
+        CSV += "HouseHolds, " + MonthNumber + ", ";
         for(int i = 0; i< households.size(); i++){
             CSV += i + ", " + households.get(i).getCSV();
         }
+        CSV += "Mortgages, " + MonthNumber + ", ";
         for(int i = 0; i< mortgages.size(); i++){
             CSV += i + ", " + mortgages.get(i).getCSV();
         }
