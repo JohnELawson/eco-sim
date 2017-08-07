@@ -11,6 +11,7 @@ public class Household {
     private double income;
     private double savings;
     private double percentSavings = 0.2;
+    NumberFormat formatter = new DecimalFormat("#0.00");
 
     public Household(double newIncome, double newSavings){
         income = newIncome;
@@ -43,11 +44,10 @@ public class Household {
     }
 
     public String getDetails(){
-        return "Income: " + income + ", Savings: " + savings + ".";
+        return "Income: " + formatter.format(income) + ", Savings: " + formatter.format(savings) + ".";
     }
 
     public String getCSV(){
-        NumberFormat formatter = new DecimalFormat("#0.00");
         return formatter.format(income) + ", " + formatter.format(savings) + ", ";
     }
 }

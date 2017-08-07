@@ -11,6 +11,7 @@ public class Bank {
     private double capitalAssets;
     private double liquidAssets;
     private double interestRate;
+    NumberFormat formatter = new DecimalFormat("#0.00");
 
     public Bank(double newLiquidAssets, double newInterestRate) {
         liquidAssets = newLiquidAssets;
@@ -34,11 +35,10 @@ public class Bank {
     }
 
     public String getDetails(){
-        return "Liquid Assets: " + liquidAssets + ", Interest Rate: " + interestRate + ".";
+        return "Liquid Assets: " + formatter.format(liquidAssets) + ", Interest Rate: " + formatter.format(interestRate) + ".";
     }
 
     public String getCSV(){
-        NumberFormat formatter = new DecimalFormat("#0.00");
         return formatter.format(liquidAssets) + ", " + formatter.format(interestRate) + ", ";
     }
 }

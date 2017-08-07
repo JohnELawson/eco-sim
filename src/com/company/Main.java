@@ -1,5 +1,8 @@
 package com.company;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ public class Main {
 
     //debug
     private static boolean debug = false;
+    private static String CSVFileName = "/Users/john/IdeaProjects/ecodemo/output.csv";
+    private static BufferedWriter writer = null;
 
     //lists of simulation assets
     private static List<Bank> banks = new ArrayList<Bank>(0);
@@ -35,13 +40,18 @@ public class Main {
         generateBanks();
         generateHouseholds();
 
+        //open output file
+        if(!openCSVFile()){
+            System.exit(1);
+        }
+
         //run sim
         monthlyLoop();
     }
 
     private static void monthlyLoop(){
         for(int i=0; i<noOfMonths; i++){
-            print("\n\nMonth: " + (i + 1) + " of " + noOfMonths + ".\n");
+            System.out.print("\n\nMonth: " + (i + 1) + " of " + noOfMonths + ".\n");
 
             //monthly increments
             incrementInterest();
@@ -57,6 +67,10 @@ public class Main {
             getBankDetails();
             getHouseholdDetails();
         }
+
+
+        //close file
+        closeCSVFile();
     }
 
     private static void generateBanks(){
@@ -143,9 +157,15 @@ public class Main {
                 //make household pay
                 households.get(householdId).payMortgage(payBackAmount);
                 //update mortgage value
-                mortgage.payLoan(payBackAmount);
+                double result = mortgage.payMortgage(payBackAmount);
                 //update bank capital
                 banks.get(mortgage.getBankId()).recievePayment(payBackAmount);
+
+
+                //delete mortgage if paid off
+                if (result != 0){
+                    mortgages.remove(i);
+                }
             }
         }
     }
@@ -186,22 +206,58 @@ public class Main {
     private static void print(String line) {
         if(debug) {
             System.out.println(line);
-        } else {
-            printCSV();
+        }
+        createCSVLine();
+    }
+
+    private static void createCSVLine(){
+        String CSV = "";
+        for(int i = 0; i< banks.size(); i++){
+            CSV += i + ", " + banks.get(i).getCSV();
+        }
+        for(int i = 0; i< households.size(); i++){
+            CSV += i + ", " + households.get(i).getCSV();
+        }
+        for(int i = 0; i< mortgages.size(); i++){
+            CSV += i + ", " + mortgages.get(i).getCSV();
+        }
+        if(CSV != "") {
+            writeCSVFileLine(CSV);
         }
     }
 
-    private static void printCSV(){
-        String line = "";
-        for(int i = 0; i< banks.size(); i++){
-            line += i + ", " + banks.get(i).getCSV();
+    private static boolean openCSVFile(){
+        try {
+            writer = new BufferedWriter( new FileWriter(CSVFileName));
+            return  true;
+        } catch (Exception ex) {
+            System.out.println("Error opening csv file: \n" + ex.toString());
+            return false;
         }
-        for(int i = 0; i< households.size(); i++){
-            line += i + ", " + households.get(i).getCSV();
+    }
+
+    private static boolean writeCSVFileLine(String line){
+        try {
+            writer.write(line + "\n");
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Error writing to csv file: \n" + ex.toString());
+            return false;
         }
-        for(int i = 0; i< mortgages.size(); i++){
-            line += i + ", " + mortgages.get(i).getCSV();
+    }
+
+    private static boolean closeCSVFile(){
+        boolean result = false;
+        try {
+            if ( writer != null) {
+                writer.close();
+                result = true;
+            }
         }
-        System.out.println(line);
+        catch ( Exception ex){
+            System.out.println("Error writing to csv file: \n" + ex.toString());
+            result = false;
+        }
+        return result;
     }
 }

@@ -27,7 +27,7 @@ public class Mortgage {
         this.payBackAmount =  totalAmount / mortgagePayMonths;
     }
 
-    public double payLoan(double payAmount){
+    public double payMortgage(double payAmount){
         if(payAmount >= amountLeft){
             amountLeft = 0;
             return payAmount - amountLeft;
