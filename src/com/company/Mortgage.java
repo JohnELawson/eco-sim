@@ -64,6 +64,6 @@ public class Mortgage {
 
     public String getCSV(){
         NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(householdId) + ", " + formatter.format(bankId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(interestRate) + ", ";
+        return formatter.format(householdId) + ", " + formatter.format(bankId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", ";
     }
 }
