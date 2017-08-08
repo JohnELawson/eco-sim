@@ -23,10 +23,10 @@ public class Main {
     private static List<Mortgage> mortgages = new ArrayList<Mortgage>(0);
 
     //loop config
-    private static int noOfMonths = 1000;
+    private static int noOfMonths = 1500;
 
     //simulation assets configs
-    private static int noOfHouseholds = 2500;
+    private static int noOfHouseholds = 500;
     private static int noOfBanks = 1;
 
     //household configs
@@ -147,7 +147,7 @@ public class Main {
 
             } else {
                 Mortgage mortgage = mortgages.get(hasMortgage(i));
-                print("Household: " + i + " already has a mortgage - Cost: " + mortgage.getAmountLeft() + ", Interest: " + mortgage.getInterestRate() + ", BankId: " + mortgage.getBankId());
+                print("Household: " + i + " already has a mortgage - Cost: " + mortgage.getAmountLeft() + ", Interest: " + mortgage.getInterestAmount() + ", BankId: " + mortgage.getBankId());
             }
         }
     }

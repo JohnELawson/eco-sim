@@ -11,7 +11,7 @@ public class Mortgage {
     private double totalAmount;
     private double amountLeft;
     private double payBackAmount;
-    private double interestRate;
+    private double interestAmount;
     private double depositAmount;
     private int householdId;
     private int bankId;
@@ -22,7 +22,7 @@ public class Mortgage {
     public Mortgage(int bankId, int houseHoldId, double totalAmount, double interestRate, double deposit){
         this.totalAmount = totalAmount;
         this.amountLeft = totalAmount;
-        this.interestRate = interestRate;
+        this.interestAmount = totalAmount * interestRate; //total * 0.08
         this.depositAmount = deposit;
         this.bankId = bankId;
         this.householdId = houseHoldId;
@@ -40,8 +40,9 @@ public class Mortgage {
     }
 
     public void incrementInterest(){
-        amountLeft = amountLeft + (amountLeft * interestRate);
-        payBackAmount = totalAmount / mortgagePayMonths;
+        //yearly interest amount /12 months
+        amountLeft = amountLeft + (interestAmount /12);
+       // payBackAmount = amountLeft / mortgagePayMonths;
     }
 
     public int getHouseholdId(){
@@ -56,8 +57,8 @@ public class Mortgage {
         return bankId;
     }
 
-    public double getInterestRate(){
-        return interestRate;
+    public double getInterestAmount(){
+        return interestAmount;
     }
 
     public double getPayBackAmount(){
@@ -66,6 +67,6 @@ public class Mortgage {
 
     public String getCSV(){
         NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(bankId) + ", " + formatter.format(householdId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", " + formatter.format(payBackAmount) + ", ";
+        return formatter.format(bankId) + ", " + formatter.format(householdId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestAmount) + ", " + formatter.format(payBackAmount) + ", ";
     }
 }

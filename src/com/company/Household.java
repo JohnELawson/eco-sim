@@ -31,7 +31,9 @@ public class Household {
     }
 
     public void getPaid() {
-        savings = savings + (income * percentSavings);
+        //income /12 months,
+        //monthly income to savings
+        savings = savings + ((income /12) * percentSavings);
     }
 
     public void getPaid(double amount) {
@@ -40,6 +42,7 @@ public class Household {
 
     public boolean payMortgage(double amount) {
         if(amount >= savings){
+            //bankrupt
             return false;
         } else {
             savings = savings - amount;
