@@ -29,19 +29,19 @@ public class Mortgage {
         this.payBackAmount =  totalAmount / mortgagePayMonths;
     }
 
-    public double payMortgage(double payAmount){
-        if(payAmount >= amountLeft){
+    public double payMortgage(){
+        if(payBackAmount >= amountLeft){
             amountLeft = 0;
-            return payAmount - amountLeft;
-
+            return payBackAmount - amountLeft;
         } else {
-            amountLeft -= payAmount;
+            amountLeft -= payBackAmount;
             return 0;
         }
     }
 
     public void incrementInterest(){
-        amountLeft = amountLeft * interestRate;
+        amountLeft = amountLeft + (amountLeft * interestRate);
+        payBackAmount = totalAmount / mortgagePayMonths;
     }
 
     public int getHouseholdId(){
@@ -66,6 +66,6 @@ public class Mortgage {
 
     public String getCSV(){
         NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(bankId) + ", " + formatter.format(householdId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", ";
+        return formatter.format(bankId) + ", " + formatter.format(householdId) + ", " + formatter.format(totalAmount) + ", " + formatter.format(amountLeft) + ", " + formatter.format(interestRate) + ", " + formatter.format(payBackAmount) + ", ";
     }
 }

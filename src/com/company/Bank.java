@@ -11,7 +11,7 @@ public class Bank {
     private double capitalAssets;
     private double liquidAssets;
     private double interestRate;
-    NumberFormat formatter = new DecimalFormat("#0.00");
+    private NumberFormat formatter = new DecimalFormat("#0.00");
 
     public Bank(double newLiquidAssets, double newInterestRate) {
         liquidAssets = newLiquidAssets;

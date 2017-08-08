@@ -3,7 +3,10 @@ package com.company;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -12,6 +15,7 @@ public class Main {
     private static boolean debug = false;
     private static String CSVFileName = "/Users/john/IdeaProjects/ecodemo/output.csv";
     private static BufferedWriter writer = null;
+    private static NumberFormat formatter = new DecimalFormat("#0.00");
 
     //lists of simulation assets
     private static List<Bank> banks = new ArrayList<Bank>(0);
@@ -22,7 +26,7 @@ public class Main {
     private static int noOfMonths = 1000;
 
     //simulation assets configs
-    private static int noOfHouseholds = 25;
+    private static int noOfHouseholds = 2500;
     private static int noOfBanks = 1;
 
     //household configs
@@ -150,24 +154,30 @@ public class Main {
 
     private static void payMortgages(){
         for(int i = 0; i< mortgages.size(); i++){
-            int householdId = hasMortgage(i);
-            if(householdId != -1){
                 Mortgage mortgage = mortgages.get(i);
+                Household household = households.get(mortgage.getHouseholdId());
                 double payBackAmount = mortgage.getPayBackAmount();
 
+               // System.out.println(formatter.format(payBackAmount));
+               // System.out.println(formatter.format(mortgage.getAmountLeft()));
+
                 //make household pay
-                households.get(householdId).payMortgage(payBackAmount);
+                household.payMortgage(payBackAmount);
                 //update mortgage value
-                double result = mortgage.payMortgage(payBackAmount);
+                double result = mortgage.payMortgage();
                 //update bank capital
                 banks.get(mortgage.getBankId()).recievePayment(payBackAmount);
 
+               // System.out.println(formatter.format(mortgage.getAmountLeft()));
+               // System.out.println("\\");
 
                 //delete mortgage if paid off
                 if (result != 0){
+                    //remove reference to mortgage as its completed
                     mortgages.remove(i);
+                    //pay the overflow back to household
+                    household.getPaid(result);
                 }
-            }
         }
     }
 
