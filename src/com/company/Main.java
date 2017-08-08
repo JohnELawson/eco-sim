@@ -162,7 +162,12 @@ public class Main {
                // System.out.println(formatter.format(mortgage.getAmountLeft()));
 
                 //make household pay
-                household.payMortgage(payBackAmount);
+                boolean houseCanPay = household.payMortgage(payBackAmount);
+                if(!houseCanPay){
+                    System.out.print("house bankrupt: " + mortgage.getHouseholdId() + ", savings: " + formatter.format(household.getSavings()) + ", amount left: " + formatter.format(mortgage.getAmountLeft()) + ", repayment amount: " + formatter.format(mortgage.getPayBackAmount()));
+
+                }
+
                 //update mortgage value
                 double result = mortgage.payMortgage();
                 //update bank capital
@@ -173,6 +178,7 @@ public class Main {
 
                 //delete mortgage if paid off
                 if (result != 0){
+
                     //remove reference to mortgage as its completed
                     mortgages.remove(i);
                     //pay the overflow back to household

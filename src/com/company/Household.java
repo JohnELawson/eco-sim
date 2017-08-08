@@ -10,7 +10,7 @@ public class Household {
 
     private double income;
     private double savings;
-    private double percentSavings = 0.08333; //income / 12
+    private double percentSavings = 0.5; //08333; //income / 12
     NumberFormat formatter = new DecimalFormat("#0.00");
 
     public Household(double newIncome, double newSavings){

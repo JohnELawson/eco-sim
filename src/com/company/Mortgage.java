@@ -34,7 +34,7 @@ public class Mortgage {
             amountLeft = 0;
             return payBackAmount - amountLeft;
         } else {
-            amountLeft -= payBackAmount;
+            amountLeft = amountLeft - payBackAmount;
             return 0;
         }
     }
